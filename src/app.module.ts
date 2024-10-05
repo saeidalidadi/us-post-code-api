@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ApiModule } from './api/api.module';
 import { InfrastructureModule } from './infrastructure/infrastructure.module';
+import { PersistenceModule } from './persistence/persistence.module';
 import configuration from './configuration';
 
 @Module({
@@ -13,6 +14,7 @@ import configuration from './configuration';
     }),
     ApiModule,
     InfrastructureModule,
+    PersistenceModule,
   ],
   controllers: [AppController],
   providers: [AppService],

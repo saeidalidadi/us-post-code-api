@@ -1,4 +1,7 @@
 import { Module } from '@nestjs/common';
+import { SignupCommandHandler } from './users/command.handlers';
 
-@Module({})
+@Module({
+  providers: [SignupCommandHandler],
+})
 export class InfrastructureModule {}
