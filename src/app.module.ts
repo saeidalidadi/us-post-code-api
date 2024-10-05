@@ -11,6 +11,7 @@ import configuration from './configuration';
   imports: [
     ConfigModule.forRoot({
       load: [configuration],
+      isGlobal: true,
     }),
     ApiModule,
     InfrastructureModule,

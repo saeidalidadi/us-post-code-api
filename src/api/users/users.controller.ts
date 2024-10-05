@@ -1,6 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { SignupCommand } from './users.command';
+import { UserSignupDto } from './dtos/signup.dto';
 
 @Controller('users')
 export class UsersController {
@@ -10,11 +11,10 @@ export class UsersController {
   ) {}
 
   @Post('/sign-up')
-  register(@Body() data: any) {
+  register(@Body() data: UserSignupDto) {
     return this.commandBus.execute(
       new SignupCommand(data.username, data.password),
     );
-    return 'success';
   }
 
   @Get('/me')
