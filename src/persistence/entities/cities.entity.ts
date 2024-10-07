@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { User } from './users.entity';
 
 export interface Places {
   placeName: string;
@@ -19,4 +26,8 @@ export class City {
 
   @Column({ type: 'json', default: '{}' })
   places: Places;
+
+  @ManyToOne(() => User, (user) => user.cities)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 }

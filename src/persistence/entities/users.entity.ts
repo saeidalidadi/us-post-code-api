@@ -3,9 +3,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { City } from './cities.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -23,4 +25,7 @@ export class User extends BaseEntity {
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamp with time zone' })
   createdAt: Date;
+
+  @OneToMany(() => City, (city) => city.user)
+  cities: City[];
 }
