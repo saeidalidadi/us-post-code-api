@@ -11,6 +11,7 @@ import { SignupCommand } from './users.command';
 import { UserSignupDto } from './dtos/signup.dto';
 import { JwtAuthGuard } from '../../infrastructure/jwt-auth.guard';
 import { AuthenticatedRequest } from '../../infrastructure/auth.types';
+import { GetMeQuery } from './users.queries';
 
 @Controller('users')
 export class UsersController {
@@ -29,6 +30,6 @@ export class UsersController {
   @Get('/me')
   @UseGuards(JwtAuthGuard)
   me(@Request() req: AuthenticatedRequest) {
-    return req.user;
+    return this.queryBus.execute(new GetMeQuery(req.user.id));
   }
 }

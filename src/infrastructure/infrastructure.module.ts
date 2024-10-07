@@ -5,6 +5,7 @@ import { User } from '../persistence/entities';
 import { EncryptDecrypt } from './encryptions.service';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
+import { GetMeHandler } from './users/query.handlers';
 
 @Module({
   imports: [
@@ -14,7 +15,7 @@ import { JwtStrategy } from './jwt.strategy';
       signOptions: { expiresIn: '30h' },
     }),
   ],
-  providers: [SignupCommandHandler, EncryptDecrypt, JwtStrategy],
+  providers: [SignupCommandHandler, GetMeHandler, EncryptDecrypt, JwtStrategy],
   exports: [EncryptDecrypt],
 })
 export class InfrastructureModule {}

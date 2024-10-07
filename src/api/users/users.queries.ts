@@ -1,1 +1,3 @@
-export class MeQuery {}
+export class GetMeQuery {
+  constructor(public readonly id: number) {}
+}
