@@ -4,12 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../../persistence/entities';
 import { Repository } from 'typeorm';
 import { EncryptDecrypt } from '../encryptions.service';
+import { JwtService } from '@nestjs/jwt';
 
 @CommandHandler(SignupCommand)
 export class SignupCommandHandler implements ICommandHandler<SignupCommand> {
   constructor(
     @InjectRepository(User) private readonly userRepository: Repository<User>,
     private readonly encryptions: EncryptDecrypt,
+    private jwtService: JwtService,
   ) {}
 
   async execute(command: SignupCommand): Promise<any> {
@@ -18,7 +20,8 @@ export class SignupCommandHandler implements ICommandHandler<SignupCommand> {
     const userRow = this.userRepository.create();
     userRow.password = encryptedPassword;
     userRow.username = username;
-
-    return this.userRepository.save(userRow);
+    const result = this.userRepository.save(userRow);
+    const token = this.jwtService.sign({ username });
+    return { token };
   }
 }
