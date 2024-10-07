@@ -7,6 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { GetMeHandler } from './users/query.handlers';
 import { GetPostCodeHandler } from './cities/command.handlers';
+import { MyRequestQueryHandler } from './cities/query.handlers';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { GetPostCodeHandler } from './cities/command.handlers';
     SignupCommandHandler,
     GetMeHandler,
     GetPostCodeHandler,
+    MyRequestQueryHandler,
     EncryptDecrypt,
     JwtStrategy,
   ],

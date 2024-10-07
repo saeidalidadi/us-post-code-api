@@ -14,7 +14,7 @@ export class SignupCommandHandler implements ICommandHandler<SignupCommand> {
     private jwtService: JwtService,
   ) {}
 
-  async execute(command: SignupCommand): Promise<any> {
+  async execute(command: SignupCommand): Promise<{ token: string }> {
     const { username, password } = command;
     const encryptedPassword = this.encryptions.encryptData(password);
     const userRow = this.userRepository.create();
