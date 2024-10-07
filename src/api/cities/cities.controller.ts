@@ -1,10 +1,14 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
+import { CommandBus } from '@nestjs/cqrs';
+import { GetPostCodeCommand } from './cities.command';
 
 @Controller('cities')
 export class CitiesController {
+  constructor(private readonly commandBus: CommandBus) {}
+
   @Get(':postCode')
-  getPostCode() {
-    return 'Your post code is 001';
+  getPostCode(@Param('postCode') postCode: number) {
+    return this.commandBus.execute(new GetPostCodeCommand(postCode));
   }
 
   @Get('my-requests')
