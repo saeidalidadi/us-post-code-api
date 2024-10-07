@@ -20,8 +20,11 @@ export class SignupCommandHandler implements ICommandHandler<SignupCommand> {
     const userRow = this.userRepository.create();
     userRow.password = encryptedPassword;
     userRow.username = username;
-    const result = this.userRepository.save(userRow);
-    const token = this.jwtService.sign({ username });
+
+    const result = await this.userRepository.save(userRow);
+
+    const token = this.jwtService.sign({ username, id: result.id });
+
     return { token };
   }
 }
