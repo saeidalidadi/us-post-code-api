@@ -11,6 +11,7 @@ import { GetPostCodeCommand } from './cities.command';
 import { JwtAuthGuard } from '../../infrastructure/jwt-auth.guard';
 import { AuthenticatedRequest } from '../../infrastructure/auth.types';
 import { MyRequestsQuery } from './cities.query';
+import { MyRequestsQueryDto } from './dtos/my-requests.dto';
 
 @Controller('cities')
 export class CitiesController {
@@ -22,10 +23,10 @@ export class CitiesController {
   @Get('my-requests')
   @UseGuards(JwtAuthGuard)
   getMyRequests(
-    @Query('page') page: number,
+    @Query() query: MyRequestsQueryDto,
     @Request() req: AuthenticatedRequest,
   ) {
-    return this.queryBus.execute(new MyRequestsQuery(req.user.id, page));
+    return this.queryBus.execute(new MyRequestsQuery(req.user.id, query.page));
   }
 
   @Get(':postCode')

@@ -11,7 +11,7 @@ export class GetPostCodeHandler implements ICommandHandler<GetPostCodeCommand> {
     @InjectRepository(City) private readonly cityRepository: Repository<City>,
   ) {}
 
-  async execute(command: GetPostCodeCommand): Promise<City> {
+  async execute(command: GetPostCodeCommand): Promise<{ data: City }> {
     const { postCode, userId } = command;
     const result = await fetch(`http://api.zippopotam.us/us/${postCode}`);
     const data = await result.json();
@@ -34,6 +34,6 @@ export class GetPostCodeHandler implements ICommandHandler<GetPostCodeCommand> {
 
     const row = await this.cityRepository.save(postCodeRow);
 
-    return row;
+    return { data: row };
   }
 }
