@@ -34,7 +34,12 @@ $ pnpm install
 
 ## Running the app
 
+###
+
 ```bash
+# Copy sample env file and change it your desired local environment setup
+$ cp .env.sample.yaml .env.yaml
+
 # development
 $ pnpm run start
 
