@@ -5,6 +5,7 @@ import { User } from '../../persistence/entities';
 import { Repository } from 'typeorm';
 import { EncryptDecrypt } from '../encryptions.service';
 import { JwtService } from '@nestjs/jwt';
+import { ConflictException } from '@nestjs/common';
 
 @CommandHandler(SignupCommand)
 export class SignupCommandHandler implements ICommandHandler<SignupCommand> {
@@ -16,15 +17,22 @@ export class SignupCommandHandler implements ICommandHandler<SignupCommand> {
 
   async execute(command: SignupCommand): Promise<{ token: string }> {
     const { username, password } = command;
-    const encryptedPassword = this.encryptions.encryptData(password);
-    const userRow = this.userRepository.create();
-    userRow.password = encryptedPassword;
-    userRow.username = username;
+    try {
+      const encryptedPassword = this.encryptions.encryptData(password);
+      const userRow = this.userRepository.create();
+      userRow.password = encryptedPassword;
+      userRow.username = username;
 
-    const result = await this.userRepository.save(userRow);
+      const result = await this.userRepository.save(userRow);
 
-    const token = this.jwtService.sign({ username, id: result.id });
-
-    return { token };
+      const token = this.jwtService.sign({ username, id: result.id });
+      return { token };
+    } catch (err) {
+      if (err.code == 23505) {
+        throw new ConflictException({
+          message: 'This username already exists!',
+        });
+      }
+    }
   }
 }
